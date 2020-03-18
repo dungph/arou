@@ -1,0 +1,12 @@
+[package]
+name = "arou"
+version = "0.0.0"
+authors = ["Dung Ph <dungph@zoho.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+http-types = "1.0.1"
+async-h1 = "1.0.1"
+async-std = "1.5.0"
