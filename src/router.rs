@@ -11,25 +11,22 @@
 // understand much about the licenses. 
 //
 
-trait Req {
-    fn method_str(&self) -> &str;
-}
-impl Req for &http_types::Request {
-    fn method_str(&self) -> &str {
-        match http_types::Request::method(self) {
-            http_types::Method::Get => "GET",
-            http_types::Method::Head => "HEAD",
-            http_types::Method::Post => "POST",
-            http_types::Method::Put => "PUT",
-            http_types::Method::Delete => "DELETE",
-            http_types::Method::Connect => "CONNECT",
-            http_types::Method::Options => "OPTIONS",
-            http_types::Method::Trace => "TRACE",
-            http_types::Method::Patch => "PATCH",
-        }
+use http_types::Method;
+
+#[doc(hidden)]
+pub fn str_method(m: Method) -> &'static str {
+    match m {
+        http_types::Method::Get => "GET",
+        http_types::Method::Head => "HEAD",
+        http_types::Method::Post => "POST",
+        http_types::Method::Put => "PUT",
+        http_types::Method::Delete => "DELETE",
+        http_types::Method::Connect => "CONNECT",
+        http_types::Method::Options => "OPTIONS",
+        http_types::Method::Trace => "TRACE",
+        http_types::Method::Patch => "PATCH",
     }
 }
-
 #[macro_export]
 macro_rules! router {
     // -----------------
@@ -46,7 +43,7 @@ macro_rules! router {
 
             let mut ret = None;
             $({
-                if ret.is_none() && request.method_str() == stringify!($method) {
+                if ret.is_none() && $crate::str_method(request.method()) == stringify!($method) {
                     ret = router!(__param_dispatch request_url, $url_pattern => $handle ; $($param: $param_type),*);
                 }
             })+
@@ -190,7 +187,7 @@ macro_rules! router {
             let mut ret = None;
 
             $({
-                if ret.is_none() && request.method_str() == stringify!($method) {
+                if ret.is_none() && $crate::str_method(request.method()) == stringify!($method) {
                     ret = router!(__check_pattern request_url $value $($pat)+);
                 }
             })+

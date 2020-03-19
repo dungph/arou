@@ -1,7 +1,6 @@
 mod router;
 
 pub extern crate percent_encoding;
-
 use {
     async_std::{
         prelude::*,
@@ -23,6 +22,7 @@ use {
 
 pub use {
     http_types::{Request, Response, Error, StatusCode},
+    router::*,
 };
 
 pub struct Server<F> {
