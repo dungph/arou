@@ -284,7 +284,6 @@ mod tests {
     use http_types::Request as Req;
     use http_types::Method;
     use http_types::Url;
-    use crate::router::Req as _; 
     fn tm(s: &str) -> Method {
         match s {
         "GET"    => http_types::Method::Get     ,
